@@ -95,3 +95,9 @@ monthly_sales = test_data.groupby('Month')['Predicted_Weekly_Sales'].sum().sort_
 store_sales = test_data.groupby('Store')['Predicted_Weekly_Sales'].sum().sort_values(ascending=False)
 dept_sales = test_data.groupby('Dept')['Predicted_Weekly_Sales'].sum().sort_values(ascending=False)
 ```
+
+## 👨‍💻 Author
+
+V Om Keshava Reddy
+📌 B.Tech CSE (AI & ML), SRM University
+🔗 [LinkedIn](https://www.linkedin.com/in/v-om-keshava-reddy-792478349/)| [GitHub](https://github.com/keshavreddy04)| [LeetCode](https://leetcode.com/u/keshav_30/)

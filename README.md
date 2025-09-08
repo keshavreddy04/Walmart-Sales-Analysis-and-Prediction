@@ -1,5 +1,8 @@
 # Walmart-Sales-Analysis-and-Prediction
-This project predicts weekly sales for Walmart stores using machine learning (XGBoost) and provides business insights. It also includes an optional Streamlit dashboard for interactive visualization.
+This project focuses on forecasting weekly sales for Walmart stores using XGBoost, a powerful gradient boosting algorithm.
+The aim is to help Walmart improve inventory management, staffing, and promotions planning by predicting future sales.
+
+We used historical sales data, holiday information, and economic indicators to build and evaluate the model.
 
 ## Project Structure
 
@@ -8,7 +11,7 @@ Walmart_Sales_Analysis/
 │
 ├── data/
 │   ├── train.csv         # Training dataset
-│   └── test.csv          # Test dataset
+│   └── test.csv          # Test dataset 
 │
 ├── notebooks/
 │   └── Walmart Sales Analysis.ipynb   # Jupyter notebook with preprocessing, training, prediction, insights
@@ -19,6 +22,25 @@ Walmart_Sales_Analysis/
 │
 └── README.md            # Project description & instructions
 ```
+## Dataset
+
+The dataset includes Walmart’s weekly sales data along with external features.
+
+**Key Columns:**
+
+* Store → Store ID
+
+* Dept → Department ID
+
+* Date → Week of sales
+
+* Weekly_Sales → Actual sales (target variable)
+
+* IsHoliday → Whether the week includes a holiday
+
+* Temperature, Fuel_Price, CPI, Unemployment → External economic factors
+
+* MarkDown1–5 → Promotional markdown data
 
 ## Features
 
@@ -67,37 +89,48 @@ streamlit run app.py
 * seaborn
 * streamlit
 
-## Example Code Snippets
+## ⚙️ Methodology
 
-### Handle Missing Columns in Test Data
+### 1.Data Preprocessing
 
-```python
-for col in X.columns:
-    if col not in test_data.columns:
-        if X[col].dtype in ['int64', 'float64']:
-            test_data[col] = X[col].mean()
-        else:
-            test_data[col] = X[col].mode()[0]
-Final_test = test_data[X.columns]
+* Handled missing values in markdowns.
+
+* Converted IsHoliday to Boolean.
+
+* Extracted Year, Month, and Week from Date.
+
+### 2.Modeling with XGBoost
+
+* Tuned hyperparameters (n_estimators=500, max_depth=6, learning_rate=0.1).
+
+* Trained model on historical sales data.
+
+### 3.Evaluation
+
+* RMSE: 72.06
+
+* R² Score: 0.9481
+
+* Normalized RMSE: 0.0045 (Excellent accuracy ✅)
+
+## 📈 Results
+
+### Sample predictions (walmart_predictions.csv):
 ```
-
-### Predict Using XGBoost
-
-```python
-test_data['Predicted_Weekly_Sales'] = xgb_model.predict(Final_test)
-test_data[['Store', 'Dept', 'Date', 'Predicted_Weekly_Sales']].head()
+Store	Dept    Date	    IsHoliday	Predicted_Weekly_Sales
+1	    1	    2012-11-02	False	    15025.16
+1	    1	    2012-11-09	False	    8027.39
+1	    1	    2012-11-16	False	    7028.98
+1	    1	    2012-11-23	True	    6591.77
 ```
+## Conclusion
 
-### Business Insight Aggregation
-
-```python
-monthly_sales = test_data.groupby('Month')['Predicted_Weekly_Sales'].sum().sort_values(ascending=False)
-store_sales = test_data.groupby('Store')['Predicted_Weekly_Sales'].sum().sort_values(ascending=False)
-dept_sales = test_data.groupby('Dept')['Predicted_Weekly_Sales'].sum().sort_values(ascending=False)
-```
+* ✅ XGBoost delivered highly accurate predictions for Walmart sales.
+* ✅ Normalized RMSE of 0.0045 shows the model generalizes well.
+* ✅ The Streamlit app makes results interactive and business-friendly.
 
 ## 👨‍💻 Author
 
-V Om Keshava Reddy
-📌 B.Tech CSE (AI & ML), SRM University
-🔗 [LinkedIn](https://www.linkedin.com/in/v-om-keshava-reddy-792478349/)| [GitHub](https://github.com/keshavreddy04)| [LeetCode](https://leetcode.com/u/keshav_30/)
+* V Om Keshava Reddy
+* 📌 B.Tech CSE (AI & ML), SRM University
+* 🔗 [LinkedIn](https://www.linkedin.com/in/v-om-keshava-reddy-792478349/)| [GitHub](https://github.com/keshavreddy04)| [LeetCode](https://leetcode.com/u/keshav_30/)
